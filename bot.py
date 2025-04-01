@@ -2,7 +2,7 @@ import requests
 import json
 from dotenv import load_dotenv
 import os
-
+from flask import Flask, request, jsonify
 # Load environment variables from .env file
 load_dotenv()
 
@@ -45,3 +45,32 @@ if response.status_code == 201:
     print("Slash command registered successfully!")
 else:
     print(f"Error: {response.status_code} - {response.text}")
+
+app = Flask(__name__)
+
+@app.route('/interactions', methods=['POST'])
+def interactions():
+    data = request.json
+    
+    if data['type'] == 1:  # Discord's verification ping
+        return jsonify({'type': 1})  
+    
+    if data['type'] == 2:  # Slash command execution
+        command_name = data['data']['name']
+        
+        if command_name == "flood":
+            message = data['data']['options'][0]['value']
+            times = int(data['data']['options'][1]['value'])
+
+            return jsonify({
+                "type": 4,  # Respond in-channel
+                "data": {
+                    "content": "\n".join([message] * times)  # Repeat message
+                }
+            })
+    
+    return jsonify({"error": "Invalid request"}), 400
+
+if __name__ == '__main__':
+    app.run(port=5000)
+
