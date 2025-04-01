@@ -6,11 +6,8 @@ import os
 # Load environment variables from .env file
 load_dotenv()
 
-# Get bot token from the environment variable
-bot_token = os.getenv("BOT_TOKEN")
-
-# Your Discord application details
-application_id = "1356755982524485755"  # Replace with your Application ID
+# Your Discord Application ID
+application_id = "1356755982524485755"  # Replace with your actual Application ID
 
 # URL to register the global slash command
 url = f"https://discord.com/api/v10/applications/1356755982524485755/commands"
@@ -19,16 +16,16 @@ url = f"https://discord.com/api/v10/applications/1356755982524485755/commands"
 payload = {
     "name": "flood",
     "description": "Flood the channel with a message",
-    "type": 1,  # 1 is for a Slash Command
+    "type": 1,  # 1 = Slash Command
     "options": [
         {
-            "type": 3,  # 3 is for a string (text)
+            "type": 3,  # String input
             "name": "message",
             "description": "The message to flood",
             "required": True,
         },
         {
-            "type": 4,  # 4 is for an integer (how many times)
+            "type": 4,  # Integer input
             "name": "times",
             "description": "How many times to send the message",
             "required": True,
@@ -38,7 +35,7 @@ payload = {
 
 # Register the slash command with Discord
 headers = {
-    "Authorization": f"Bot {bot_token}",  # Bot token from environment variable
+    "Authorization": f"Bot {os.getenv('BOT_TOKEN')}",
     "Content-Type": "application/json"
 }
 
