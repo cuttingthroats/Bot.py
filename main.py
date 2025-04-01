@@ -4,7 +4,10 @@ from dotenv import load_dotenv
 import os
 from flask import Flask, request, jsonify
 # Load environment variables from .env file
-load_dotenv()
+
+# Access the environment variable
+bot_token = os.getenv("BOT_TOKEN")
+
 
 # Your Discord Application ID
 application_id = "1356755982524485755"  # Replace with your actual Application ID
