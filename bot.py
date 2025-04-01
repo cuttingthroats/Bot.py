@@ -6,7 +6,7 @@ application_id = "1356755982524485755"
 client_id = "RIqDm7SCFV947fThzH3i5BsriUtniOPd"
 
 # URL to register the global slash command
-url = f"https://discord.com/api/v10/applications/{application_id}/commands"
+url = f"https://discord.com/api/v10/applications/1356755982524485755/commands"
 
 # Payload for the /flood command
 payload = {
