@@ -1,9 +1,16 @@
 import requests
 import json
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Get bot token from the environment variable
+bot_token = os.getenv("BOT_TOKEN")
 
 # Your Discord application details
-application_id = "1356755982524485755"
-client_id = "RIqDm7SCFV947fThzH3i5BsriUtniOPd"
+application_id = "1356755982524485755"  # Replace with your Application ID
 
 # URL to register the global slash command
 url = f"https://discord.com/api/v10/applications/1356755982524485755/commands"
@@ -31,7 +38,7 @@ payload = {
 
 # Register the slash command with Discord
 headers = {
-    "Authorization": f"Bot {bot_token}",
+    "Authorization": f"Bot {bot_token}",  # Bot token from environment variable
     "Content-Type": "application/json"
 }
 
