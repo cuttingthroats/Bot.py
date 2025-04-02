@@ -3,19 +3,19 @@ import json
 from dotenv import load_dotenv
 import os
 from flask import Flask, request, jsonify
-import gunicorn
-# Load environment variables from .env file
 
-# Access the environment variable
+# Load environment variables from .env file (for local dev)
+load_dotenv()
+
+# Fetch the bot token from the environment
 bot_token = os.getenv("BOT_TOKEN")
 print(f"Using bot token: {bot_token}")  # This will print the bot token to check if it's correct
-
 
 # Your Discord Application ID
 application_id = "1356755982524485755"  # Replace with your actual Application ID
 
 # URL to register the global slash command
-url = f"https://discord.com/api/v10/applications/1356755982524485755/commands"
+url = f"https://discord.com/api/v10/applications/{application_id}/commands"
 
 # Payload for the /flood command
 payload = {
@@ -58,7 +58,7 @@ def interactions():
     data = request.json
     
     if data['type'] == 1:  # Discord's verification ping
-        return jsonify({'type': 1})  
+        return jsonify({'type': 1})  # Respond with type 1 (ping response)
     
     if data['type'] == 2:  # Slash command execution
         command_name = data['data']['name']
@@ -75,7 +75,3 @@ def interactions():
             })
     
     return jsonify({"error": "Invalid request"}), 400
-
-if __name__ == '__main__':
-    app.run(port=5000)
-
