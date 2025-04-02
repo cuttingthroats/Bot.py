@@ -15,7 +15,7 @@ print(f"Using bot token: {bot_token}")  # This will print the bot token to check
 application_id = "1356755982524485755"  # Replace with your actual Application ID
 
 # URL to register the global slash command
-url = f"https://discord.com/api/v10/applications/{application_id}/commands"
+url = f"https://discord.com/api/v10/applications/1356755982524485755/commands"
 
 # Payload for the /flood command
 payload = {
@@ -51,21 +51,28 @@ if response.status_code == 201:
 else:
     print(f"Error: {response.status_code} - {response.text}")
 
+# Initialize Flask app
 app = Flask(__name__)
 
 @app.route('/interactions', methods=['POST'])
 def interactions():
     data = request.json
-    
-    if data['type'] == 1:  # Discord's verification ping
+    print(f"Received interaction data: {data}")  # Debug: log incoming interaction data
+
+    # Discord verification ping response
+    if data['type'] == 1:
         return jsonify({'type': 1})  # Respond with type 1 (ping response)
     
-    if data['type'] == 2:  # Slash command execution
+    # Slash command execution
+    if data['type'] == 2:
         command_name = data['data']['name']
-        
+        print(f"Received command: {command_name}")  # Debug: log command name
+
         if command_name == "flood":
             message = data['data']['options'][0]['value']
             times = int(data['data']['options'][1]['value'])
+
+            print(f"Flooding with message: {message} {times} times")  # Debug: log flooding details
 
             return jsonify({
                 "type": 4,  # Respond in-channel
@@ -74,4 +81,8 @@ def interactions():
                 }
             })
     
+    # If the request is invalid, respond with an error
     return jsonify({"error": "Invalid request"}), 400
+
+if __name__ == '__main__':
+    app.run(port=5000)  # Run the Flask app on port 5000
