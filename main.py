@@ -3,6 +3,7 @@ import json
 from dotenv import load_dotenv
 import os
 from flask import Flask, request, jsonify
+import gunicorn
 # Load environment variables from .env file
 
 # Access the environment variable
