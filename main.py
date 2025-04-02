@@ -8,6 +8,7 @@ import gunicorn
 
 # Access the environment variable
 bot_token = os.getenv("BOT_TOKEN")
+print(f"Using bot token: {bot_token}")  # This will print the bot token to check if it's correct
 
 
 # Your Discord Application ID
